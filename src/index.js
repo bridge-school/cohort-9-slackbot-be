@@ -1,7 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
 const admin = require("firebase-admin");
-require("dotenv").config();
 
 const router = require("./api");
 const { logger } = require("./utils/logger");
@@ -28,6 +27,12 @@ app.use("/", router);
 app.use(errorHandler);
 
 // Serve the application at the given port
-app.listen(port, () => {
-  logger.info(`🎧 Listening at http://localhost:${port}/`);
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(port, () => {
+    logger.info(`🎧 Listening at http://localhost:${port}/`);
+  });
+}
+
+module.exports = {
+  app
+};

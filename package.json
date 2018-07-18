@@ -11,7 +11,8 @@
   "author": "",
   "devDependencies": {
     "jest": "^22.4.4",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "supertest": "^3.1.0"
   },
   "dependencies": {
     "express": "^4.16.3",
@@ -20,10 +21,18 @@
     "winston": "^3.0.0"
   },
   "nodemonConfig": {
-    "ignore": ["**/*.test.js", "**/*.spec.js", ".git", "node_modules"]
+    "ignore": [
+      "**/*.test.js",
+      "**/*.spec.js",
+      ".git",
+      "node_modules"
+    ]
   },
   "jest": {
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(js)$",
-    "moduleFileExtensions": ["js", "json"]
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ]
   }
 }
