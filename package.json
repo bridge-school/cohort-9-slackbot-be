@@ -2,10 +2,13 @@
   "name": "bridge-node-starter",
   "version": "0.0.0",
   "description": "Node server starter",
+  "engines": {
+    "node": ">=10.15"
+  },
   "scripts": {
     "start": "node src/index.js",
     "test": "jest",
-    "dev": "nodemon src/index.js",
+    "start:local": "nodemon src/index.js",
     "test:watch": "jest --watch"
   },
   "author": "",
