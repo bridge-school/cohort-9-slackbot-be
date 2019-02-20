@@ -1,0 +1,64 @@
+### Template for possible deploy
+
+version: 2
+
+aliases:
+  - &set-working-directory
+    working_directory: /home/circleci/project
+
+  - &attach-workspace
+    attach_workspace:
+      at: /home/circleci/project
+
+jobs:
+  build:
+    <<: *set-working-directory
+    docker:
+      - image: circleci/node:10.15.0
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore NPM Package Cache
+          key: npm-packages-{{ .Branch }}-{{ checksum "package.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - save_cache:
+          name: Save NPM Package Cache
+          key: npm-packages-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules/
+      - run:
+          name: Run Tests
+          command: npm run test
+      - persist_to_workspace:
+          root: /home/circleci/project
+          paths:
+            - ./*
+  deploy:
+    <<: *set-working-directory
+    docker:
+      - image: circleci/python:2.7
+    steps:
+      - *attach-workspace
+      - run:
+          name: Install awsebcli
+          command: sudo pip install awsebcli
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli
+      - run:
+          name: Deploy to EB
+          command: .circleci/scripts/deploy_backend.sh $BACKEND_BUCKET_ID $FIREBASE_BUCKET_ID $TEAM_NAME
+workflows:
+  version: 2
+  test_deploy:
+    jobs:
+      - build
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - build
