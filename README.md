@@ -1,26 +1,20 @@
 ## Installation
 
 ```sh
-$ yarn install
+$ npm install
 ```
 
-## Run the app locally
+## Run the app for local development
 
 ```sh
-$ yarn start:local
+$ npm run start:local
 ```
 
 ## Run the app in production
 
 ```
-$ yarn start
+$ npm start
 ```
-
-## Middleware
-
-Middleware functions are functions that have access to the request object (`req`), the response object (`res`), and the next middleware function in the application’s request-response cycle.
-
-Middleware can be at the application level or at the router level.
 
 ## Database
 
@@ -34,9 +28,11 @@ To setup a connection to the database:
 
 To query the database you will need to `require` the `db` instance that is exported from `db/index.js`. You can use the [firebase docs](https://firebase.google.com/docs/firestore/query-data/get-data) and have a look under the node.js tab for examples.
 
-## Testing
+## Middleware
 
-Using `jest` and `supertest` for API testing.
+Middleware functions are functions that have access to the request object (`req`), the response object (`res`), and the next middleware function in the application’s request-response cycle.
+
+Middleware can be at the application level or at the router level.
 
 ## Commit messages
 

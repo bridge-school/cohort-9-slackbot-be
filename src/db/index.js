@@ -1,10 +1,16 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("../../firebase-credentials.json");
 
 // initialize firebase store
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+try {
+  const serviceAccount = require("../../firebase-credentials.json");
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+} catch (e) {
+  throw new Error(
+    "Please add the firebase-credentials.json file to your root folder found in your project's Slack channel"
+  );
+}
 
 const db = admin.firestore();
 
