@@ -1,6 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
-// const admin = require("firebase-admin");
+const cors = require("cors");
 
 const router = require("./api");
 const { logger } = require("./utils/logger");
@@ -14,7 +14,14 @@ const port = process.env.PORT || 8081;
 
 logger.info("🤖 Initializing middleware");
 
+// This piece of middleware creates the logs that you see when
+// you hit an endpoint in your terminal. It's here to help you debug.
 app.use(morgan("tiny", { stream: logger.stream }));
+app.use(
+  cors({
+    origin: `http://${process.env.PROJECT_NAME}-frontend.bridgeschoolapp.io`
+  })
+);
 app.use("/", router);
 app.use(errorHandler);
 
