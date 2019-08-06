@@ -62,6 +62,35 @@ This is where all the logic for your endpoints will live. You should make a new 
 
 This is a multi-purpose folder for any extra utility functions that you might want to reuse throughout your app.
 
-## Commit messages
+## Project Workflow
 
-In order to keep a clean git history merges should always be squashed with a consistent commit message style.
+### Setting up
+
+- Clone your git repos directly (do not fork!)
+- Follow the setup instructions for each repo in the respective READMEs
+- Run the app
+
+### Development Workflow
+
+- Pick a feature / part of a feature from your project board and assign it to yourself. Move the ticket into in progress and make sure your whole team knows you are working on it.
+- Pull the most recent version of master and create a branch off it
+    - For a feature: `feat/<name of your feature>`
+    - For a bug: `bug/<name of bug>`
+    - For a chore: `chore/<name of chore>`
+- Work on your ticket
+- Once you are ready to get some feedback on your code, push your branch
+    - `git push origin <name of your branch>`
+- Go to GitHub and create a Pull Request
+    - The title should be formatted as `[Feature/Bug/Chore][Ticket #] Title of what you did`
+    - In the description make sure to link to the ticket and include any relevant screenshots
+    - Describe all the changes you have made
+- Assign your team members for review, once you have one approval you can merge your code
+- Your code will be automatically deployed to the development environment
+
+### General Tips
+
+- Break your features into small chunks of work
+- Try to keep PRs as small and single purpose as possible
+- Use your class time to break up work, review PRs and make sure everyone leaves with an idea of what they are working on
+- Bug people to review your PRs!
+- If you have many PRs open, prioritize getting them reviewed and merged over starting new work
