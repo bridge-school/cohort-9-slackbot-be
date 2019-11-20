@@ -1,3 +1,7 @@
+// Load environment variables 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -5,6 +9,7 @@ const cors = require("cors");
 const router = require("./api");
 const { logger } = require("./utils/logger");
 const { errorHandler } = require("./middleware/error-handler");
+const { getChannels } = require("./middleware/get-channels");
 
 // Create a new express application instance
 const app = express();
@@ -24,6 +29,7 @@ app.use(
 );
 app.use("/", router);
 app.use(errorHandler);
+app.use(getChannels);
 
 // Serve the application at the given port
 if (process.env.NODE_ENV !== "test") {
