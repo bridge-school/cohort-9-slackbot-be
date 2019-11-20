@@ -1,6 +1,7 @@
-// Load environment variables 
-const dotenv = require('dotenv');
-dotenv.config();
+// Load environment variables
+const dotenv = require("dotenv");
+
+dotenv.config({ path: ".env" });
 
 const express = require("express");
 const morgan = require("morgan");
@@ -9,7 +10,7 @@ const cors = require("cors");
 const router = require("./api");
 const { logger } = require("./utils/logger");
 const { errorHandler } = require("./middleware/error-handler");
-const { getChannels } = require("./middleware/get-channels");
+const { channelRouter } = require("./routes/channels/channels.router");
 
 // Create a new express application instance
 const app = express();
@@ -27,9 +28,10 @@ app.use(
     origin: `http://${process.env.PROJECT_NAME}-frontend.bridgeschoolapp.io`
   })
 );
-app.use("/", router);
-app.use(errorHandler);
-app.use(getChannels);
+// app.use("/", router);
+// app.use(errorHandler);
+app.use("/channels", channelRouter);
+// // app.get("/", );
 
 // Serve the application at the given port
 if (process.env.NODE_ENV !== "test") {
