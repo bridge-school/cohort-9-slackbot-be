@@ -16,7 +16,7 @@ const { channelRouter } = require("./routes/channels/channels.router");
 const app = express();
 
 // The port the express app will listen on
-const port = process.env.PORT || 8081;
+const port = process.env.PORT;
 
 logger.info("🤖 Initializing middleware");
 
