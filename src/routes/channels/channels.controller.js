@@ -11,7 +11,7 @@ const getChannels = async (req, res) => {
         "Content-type": "application/json"
       }
     });
-    logger.info(process.env.BOT_USER_ACCESS_TOKEN);
+    // logger.info(process.env.BOT_USER_ACCESS_TOKEN);
     // logger.info(JSON.stringify(channels));
     const channelsData = response.data.channels;
     const channelNames = channelsData.map(channel => ({
