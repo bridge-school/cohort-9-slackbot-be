@@ -25,9 +25,8 @@ logger.info("🤖 Initializing middleware");
 app.use(morgan("tiny", { stream: logger.stream }));
 app.use(
   cors({
-    origin:
-      `http://localhost:3000` ||
-      `http://${process.env.PROJECT_NAME}-frontend.bridgeschoolapp.io`
+    origin: `http://localhost:3000`
+    // origin: `http://${process.env.PROJECT_NAME}-frontend.bridgeschoolapp.io`
   })
 );
 // app.use("/", router);
