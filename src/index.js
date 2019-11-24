@@ -16,7 +16,7 @@ const { channelRouter } = require("./routes/channels/channels.router");
 const app = express();
 
 // The port the express app will listen on
-const port = process.env.PORT || 8081;
+const port = process.env.PORT;
 
 logger.info("🤖 Initializing middleware");
 
@@ -25,7 +25,10 @@ logger.info("🤖 Initializing middleware");
 app.use(morgan("tiny", { stream: logger.stream }));
 app.use(
   cors({
-    origin: `http://${process.env.PROJECT_NAME}-frontend.bridgeschoolapp.io`
+    origin: [
+      `http://localhost:3000`,
+      `http://${process.env.PROJECT_NAME}-frontend.bridgeschoolapp.io`
+    ]
   })
 );
 // app.use("/", router);
