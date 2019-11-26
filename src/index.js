@@ -11,6 +11,7 @@ const router = require("./api");
 const { logger } = require("./utils/logger");
 const { errorHandler } = require("./middleware/error-handler");
 const { channelRouter } = require("./routes/channels/channels.router");
+const { postMessage } = require("./middleware/postMessage");
 
 // Create a new express application instance
 const app = express();
@@ -35,6 +36,10 @@ app.use(
 // app.use(errorHandler);
 app.use("/channels", channelRouter);
 // // app.get("/", );
+postMessage(
+  process.env.SLACKBOT_TEST_CHANNEL,
+  "Testing one, two, three. Is this thing on?"
+);
 
 // Serve the application at the given port
 if (process.env.NODE_ENV !== "test") {
