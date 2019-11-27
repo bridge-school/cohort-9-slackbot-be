@@ -27,7 +27,7 @@ app.use(
   cors({
     origin: [
       `http://localhost:3000`,
-      `http://${process.env.PROJECT_NAME}-frontend.bridgeschoolapp.io`
+      `https://fervent-lichterman-55cc2b.netlify.com`
     ]
   })
 );
