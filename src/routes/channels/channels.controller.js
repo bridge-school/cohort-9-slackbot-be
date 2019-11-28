@@ -14,15 +14,18 @@ const getChannels = async (req, res) => {
     // logger.info(process.env.BOT_USER_ACCESS_TOKEN);
     // logger.info(JSON.stringify(channels));
     const channelsData = response.data.channels;
-    const channelNames = channelsData.map(channel => ({
+    const channelsInfo = channelsData.map(channel => ({
       name: channel.name,
-      id: channel.id
+      id: channel.id,
+      size: channel.num_members
     }));
-    res.json(channelNames);
+    res.json(channelsInfo);
   } catch (error) {
     logger.info("error", error);
     res.send("error");
   }
 };
+
+getChannels();
 
 module.exports = { getChannels };
