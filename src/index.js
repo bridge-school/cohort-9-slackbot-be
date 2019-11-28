@@ -26,12 +26,8 @@ logger.info("🤖 Initializing middleware");
 app.use(morgan("tiny", { stream: logger.stream }));
 app.use(
   cors({
-    origin: [
-      `http://localhost:3000`,
-      `https://fervent-lichterman-55cc2b.netlify.com/`,
-      `https://5ddddbaa7a1bdb00086a2705--fervent-lichterman-55cc2b.netlify.com/`,
-      /fervent-lichterman-55cc2b.netlify.com/
-    ]
+    // regex to allow all urls from our FE netlify.
+    origin: [`http://localhost:3000`, /fervent-lichterman-55cc2b.netlify.com/]
   })
 );
 // app.use("/", router);
