@@ -1,6 +1,6 @@
 // Load environment variables
-const dotenv = require("dotenv");
 
+const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
 
 const express = require("express");
@@ -11,7 +11,14 @@ const router = require("./api");
 const { logger } = require("./utils/logger");
 const { errorHandler } = require("./middleware/error-handler");
 const { channelRouter } = require("./routes/channels/channels.router");
-const { postMessage } = require("./middleware/postMessage");
+const {
+  previousPollsRouter
+} = require("./routes/previous-polls/previous-polls.router");
+const { resultRouter } = require("./routes/result/result.router");
+
+const { postTestMessage } = require("./middleware/postTestMessage");
+const Timestamp = require("firebase-admin").firestore.Timestamp;
+const db = require("./db/index");
 
 // Create a new express application instance
 const app = express();
@@ -27,17 +34,21 @@ app.use(morgan("tiny", { stream: logger.stream }));
 app.use(
   cors({
     // regex to allow all urls from our FE netlify.
-    origin: [`http://localhost:3000`, /fervent-lichterman-55cc2b.netlify.com/]
+    origin: [`http://localhost:3000`, process.env.SLACKBOT_FE_URL]
   })
 );
 // app.use("/", router);
 // app.use(errorHandler);
 app.use("/channels", channelRouter);
 // // app.get("/", );
-postMessage(
-  process.env.SLACKBOT_TEST_CHANNEL,
-  "Testing one, two, three. Is this thing on?"
-);
+
+app.use("/previous-polls", previousPollsRouter);
+app.use("/result/:id", resultRouter);
+
+// postTestMessage(
+//   process.env.SLACKBOT_TEST_CHANNEL,
+//   "Changed this to postTestMessage 123"
+// );
 
 // Serve the application at the given port
 if (process.env.NODE_ENV !== "test") {
@@ -45,6 +56,38 @@ if (process.env.NODE_ENV !== "test") {
     logger.info(`🎧 Listening at http://localhost:${port}/`);
   });
 }
+
+// Function to insert data to db
+const insertData = (col, data) => {
+  const doc = db
+    .collection(col)
+    // Table
+    .doc();
+  const id = doc.id;
+  data["id"] = id;
+  return (
+    doc
+      // Data. .set returns a promise
+      .set(data)
+  );
+};
+
+// Sample object data to be sent to db:
+// const sampleData = {
+//   question: "What is the best pizza topping?",
+//   responses: ["pepperoni", "pineapple", "cheese", "olives", "peppers"],
+//   channel: "slackbot-9-test",
+//   channelID: "CQR54FVUZ",
+//   timeStamp: Timestamp.now()
+// };
+
+// Function Call to insert data
+// To insert something to the database:
+// insertData("SLACKBOT_TEST", sampleData)
+//   .then(() => {
+//     console.log(`Success`);
+//   })
+//   .catch(err => console.error(err));
 
 module.exports = {
   app

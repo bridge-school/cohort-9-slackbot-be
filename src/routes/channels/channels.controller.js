@@ -21,11 +21,11 @@ const getChannels = async (req, res) => {
     }));
     res.json(channelsInfo);
   } catch (error) {
-    logger.info("error", error);
-    res.send("error");
+    logger.info("get channels error", error);
+    res.send("get channels error");
   }
 };
 
-getChannels();
+// getChannels();
 
 module.exports = { getChannels };

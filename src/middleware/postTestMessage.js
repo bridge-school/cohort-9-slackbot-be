@@ -4,8 +4,8 @@ dotenv.config({ path: "../../.env" });
 const axios = require("axios");
 const { logger } = require("../utils/logger");
 
-const postMessage = async (channelID, messageText) => {
-  const url = "https://slack.com/api/chat.postMessage";
+const postTestMessage = async (channelID, messageText) => {
+  const url = `${process.env.SLACK_POST_MESSAGE_API}`;
   const post = {
     channel: channelID,
     text: messageText
@@ -17,9 +17,10 @@ const postMessage = async (channelID, messageText) => {
   try {
     const response = await axios.post(url, post, { headers: headers });
     logger.info(` Response code: ${response.status}`);
+    // logger.info("response is", response);
   } catch (e) {
     logger.info(`Error posting message: ${e}`);
   }
 };
 
-module.exports = { postMessage };
+module.exports = { postTestMessage };
