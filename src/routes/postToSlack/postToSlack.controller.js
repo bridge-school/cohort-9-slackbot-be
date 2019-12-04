@@ -56,6 +56,5 @@ const postToSlack = async (channelID, messageText) => {
 };
 
 postToSlack(channelID, message);
-// console.log(process.env.SLACK_POST_MESSAGE_API);
 
 module.exports = { postToSlack };
