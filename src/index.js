@@ -49,6 +49,7 @@ app.use("/result/:id", resultRouter);
 //   process.env.SLACKBOT_TEST_CHANNEL,
 //   "Changed this to postTestMessage 123"
 // );
+postMessage(process.env.SLACKBOT_TEST_CHANNEL, "test message");
 
 // Serve the application at the given port
 if (process.env.NODE_ENV !== "test") {
