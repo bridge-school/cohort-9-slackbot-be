@@ -1,11 +1,17 @@
 // Load environment variables
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
+
+// Import Packages 
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+
+// Import Routes
 const router = require("./api");
 const { logger } = require("./utils/logger");
+const { postTestMessage } = require("./middleware/postTestMessage");
 const { errorHandler } = require("./middleware/error-handler");
 const { channelRouter } = require("./routes/channels/channels.router");
 const {
@@ -13,16 +19,19 @@ const {
 } = require("./routes/previous-polls/previous-polls.router");
 const { newPollRouter } = require('./routes/new-poll/new-poll.router');
 const { resultRouter } = require("./routes/result/result.router");
-const { postTestMessage } = require("./middleware/postTestMessage");
+
+// Firebase Imports
 const Timestamp = require("firebase-admin").firestore.Timestamp;
 const db = require("./db/index");
-const bodyParser = require("body-parser");
+
 
 // Create a new express application instance
 const app = express();
+
 // The port the express app will listen on
 const port = process.env.PORT;
 logger.info(":robot_face: Initializing middleware");
+
 // This piece of middleware creates the logs that you see when
 // you hit an endpoint in your terminal. It's here to help you debug.
 app.use(morgan("tiny", { stream: logger.stream }));
@@ -32,6 +41,8 @@ app.use(
     origin: [`http://localhost:3000`, process.env.SLACKBOT_FE_URL]
   })
 );
+
+// Add channels 
 // app.use("/", router);
 // app.use(errorHandler);
 app.use(bodyParser());
@@ -44,6 +55,7 @@ app.use("/result/:id", resultRouter);
 //   process.env.SLACKBOT_TEST_CHANNEL,
 //   "Changed this to postTestMessage 123"
 // );
+
 // Serve the application at the given port
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, () => {
@@ -64,6 +76,7 @@ const insertData = (col, data) => {
       .set(data)
   );
 };
+
 // Sample object data to be sent to db:
 // const sampleData = {
 //   question: "What is the best pizza topping?",
@@ -79,6 +92,7 @@ const insertData = (col, data) => {
 //     console.log(`Success`);
 //   })
 //   .catch(err => console.error(err));
+
 module.exports = {
   app
 };
