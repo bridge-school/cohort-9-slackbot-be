@@ -1,10 +1,10 @@
 const express = require("express");
 
-const { newPollRouter } = require("./new-poll.controller");
+const { newPolls } = require("./new-poll.controller");
 
 const router = express.Router();
 
-router.post("", newPollRouter);
+router.post("", newPolls);
 
 module.exports = {
   newPollRouter: router

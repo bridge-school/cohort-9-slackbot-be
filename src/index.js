@@ -11,10 +11,13 @@ const { channelRouter } = require("./routes/channels/channels.router");
 const {
   previousPollsRouter
 } = require("./routes/previous-polls/previous-polls.router");
+const { newPollRouter } = require('./routes/new-poll/new-poll.router');
 const { resultRouter } = require("./routes/result/result.router");
 const { postTestMessage } = require("./middleware/postTestMessage");
 const Timestamp = require("firebase-admin").firestore.Timestamp;
 const db = require("./db/index");
+const bodyParser = require("body-parser");
+
 // Create a new express application instance
 const app = express();
 // The port the express app will listen on
@@ -31,8 +34,10 @@ app.use(
 );
 // app.use("/", router);
 // app.use(errorHandler);
+app.use(bodyParser());
 app.use("/channels", channelRouter);
 // // app.get("/", );
+app.use("/new-poll", newPollRouter);
 app.use("/previous-polls", previousPollsRouter);
 app.use("/result/:id", resultRouter);
 // postTestMessage(
