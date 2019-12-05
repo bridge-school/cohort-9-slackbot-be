@@ -30,7 +30,7 @@ const app = express();
 
 // The port the express app will listen on
 const port = process.env.PORT;
-logger.info(":robot_face: Initializing middleware");
+logger.info("🤖 Initializing middleware");
 
 // This piece of middleware creates the logs that you see when
 // you hit an endpoint in your terminal. It's here to help you debug.
@@ -59,7 +59,7 @@ app.use("/result/:id", resultRouter);
 // Serve the application at the given port
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, () => {
-    logger.info(`:headphones: Listening at http://localhost:${port}/`);
+    logger.info(`🎧 Listening at http://localhost:${port}/`);
   });
 }
 // Function to insert data to db
