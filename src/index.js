@@ -34,7 +34,6 @@ logger.info("🤖 Initializing middleware");
 app.use(morgan("tiny", { stream: logger.stream }));
 app.use(
   cors({
-    // regex to allow all urls from our FE netlify.
     origin: [`http://localhost:3000`, process.env.SLACKBOT_FE_URL]
   })
 );
