@@ -1,5 +1,12 @@
 const db = require("./../../db/index");
 
+const postPolls = function (req, res) {
+  const body = req.body;
+  console.log(body);
+  res.set('Content-Type', 'application/json')
+  res.send(`Received new Poll: ${body.message}`);
+}
+
 const getData = col => {
   return (
     db
@@ -15,7 +22,7 @@ const getData = col => {
   );
 };
 
-const getPreviousPolls = async (req, res) => {
+const getPolls = async (req, res) => {
   getData("SLACKBOT_TEST")
     .then(data => {
       res.json(data);
@@ -26,4 +33,4 @@ const getPreviousPolls = async (req, res) => {
     });
 };
 
-module.exports = { getPreviousPolls };
+module.exports = { postPolls, getPolls };
