@@ -15,6 +15,7 @@ const {
   previousPollsRouter
 } = require("./routes/previous-polls/previous-polls.router");
 const { resultRouter } = require("./routes/result/result.router");
+const { pollsRouter } = require("./routes/polls/polls.router");
 
 const { postTestMessage } = require("./middleware/postTestMessage");
 const Timestamp = require("firebase-admin").firestore.Timestamp;
@@ -44,12 +45,13 @@ app.use("/channels", channelRouter);
 
 app.use("/previous-polls", previousPollsRouter);
 app.use("/result/:id", resultRouter);
+app.use("/polls", pollsRouter);
 
 // postTestMessage(
 //   process.env.SLACKBOT_TEST_CHANNEL,
 //   "Changed this to postTestMessage 123"
 // );
-postMessage(process.env.SLACKBOT_TEST_CHANNEL, "test message");
+// postMessage(process.env.SLACKBOT_TEST_CHANNEL, "test message");
 
 // Serve the application at the given port
 if (process.env.NODE_ENV !== "test") {
