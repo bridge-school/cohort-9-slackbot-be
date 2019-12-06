@@ -2,7 +2,7 @@
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
 
-// Import Packages 
+// Import Packages
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -14,13 +14,12 @@ const { logger } = require("./utils/logger");
 const { postTestMessage } = require("./middleware/postTestMessage");
 const { errorHandler } = require("./middleware/error-handler");
 const { channelRouter } = require("./routes/channels/channels.router");
-const { pollsRouter } = require('./routes/polls/polls.router');
+const { pollsRouter } = require("./routes/polls/polls.router");
 const { resultRouter } = require("./routes/result/result.router");
 
 // Firebase Imports
 const Timestamp = require("firebase-admin").firestore.Timestamp;
 const db = require("./db/index");
-
 
 // Create a new express application instance
 const app = express();
@@ -35,11 +34,11 @@ app.use(morgan("tiny", { stream: logger.stream }));
 app.use(
   cors({
     // regex to allow all urls from our FE netlify.
-    origin: [`http://localhost:3000`, process.env.SLACKBOT_FE_URL]
+    origin: [`http://localhost:3000`, /slackbot-9.netlify.com/]
   })
 );
 
-// Add channels 
+// Add channels
 // app.use("/", router);
 // app.use(errorHandler);
 app.use(bodyParser());
@@ -92,4 +91,3 @@ const insertData = (col, data) => {
 module.exports = {
   app
 };
-
