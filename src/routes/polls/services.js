@@ -2,13 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "../../../.env" });
 
 const axios = require("axios");
-const payload = {
-  question: "Coffee in the morning",
-  responses: ["Yes", "Nah", "tea"],
-  channel: "slackbot-9-test",
-  channelID: "CQR54FVUZ",
-  channelSize: 3
-};
+
 const blockMessage = ({ question, responses }) => {
   const buttons = responses.map(response => ({
     type: "button",
@@ -53,5 +47,4 @@ const postToSlack = async (channelID, messageText) => {
   }
 };
 
-postToSlack(payload.channelID, blockMessage(payload));
 module.exports = { blockMessage, postToSlack };
