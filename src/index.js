@@ -15,6 +15,7 @@ const { postTestMessage } = require("./middleware/postTestMessage");
 const { errorHandler } = require("./middleware/error-handler");
 const { channelRouter } = require("./routes/channels/channels.router");
 const { pollsRouter } = require('./routes/polls/polls.router');
+const { responsesRouter } = require('./routes/responses/responses.router');
 const { resultRouter } = require("./routes/result/result.router");
 
 // Firebase Imports
@@ -46,6 +47,7 @@ app.use(bodyParser());
 app.use("/channels", channelRouter);
 // // app.get("/", );
 app.use("/polls", pollsRouter);
+app.use("/responses", responsesRouter);
 app.use("/result/:id", resultRouter);
 // postTestMessage(
 //   process.env.SLACKBOT_TEST_CHANNEL,
