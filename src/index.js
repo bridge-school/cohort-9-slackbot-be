@@ -2,7 +2,7 @@
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
 
-// Import Packages 
+// Import Packages
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -14,13 +14,12 @@ const { logger } = require("./utils/logger");
 const { postTestMessage } = require("./middleware/postTestMessage");
 const { errorHandler } = require("./middleware/error-handler");
 const { channelRouter } = require("./routes/channels/channels.router");
-const { pollsRouter } = require('./routes/polls/polls.router');
+const { pollsRouter } = require("./routes/polls/polls.router");
 const { resultRouter } = require("./routes/result/result.router");
 
 // Firebase Imports
 const Timestamp = require("firebase-admin").firestore.Timestamp;
 const db = require("./db/index");
-
 
 // Create a new express application instance
 const app = express();
@@ -39,7 +38,7 @@ app.use(
   })
 );
 
-// Add channels 
+// Add channels
 // app.use("/", router);
 // app.use(errorHandler);
 app.use(bodyParser());
@@ -58,38 +57,7 @@ if (process.env.NODE_ENV !== "test") {
     logger.info(`🎧 Listening at http://localhost:${port}/`);
   });
 }
-// Function to insert data to db
-const insertData = (col, data) => {
-  const doc = db
-    .collection(col)
-    // Table
-    .doc();
-  const id = doc.id;
-  data["id"] = id;
-  return (
-    doc
-      // Data. .set returns a promise
-      .set(data)
-  );
-};
-
-// Sample object data to be sent to db:
-// const sampleData = {
-//   question: "What is the best pizza topping?",
-//   responses: ["pepperoni", "pineapple", "cheese", "olives", "peppers"],
-//   channel: "slackbot-9-test",
-//   channelID: "CQR54FVUZ",
-//   timeStamp: Timestamp.now()
-// };
-// Function Call to insert data
-// To insert something to the database:
-// insertData("SLACKBOT_TEST", sampleData)
-//   .then(() => {
-//     console.log(`Success`);
-//   })
-//   .catch(err => console.error(err));
 
 module.exports = {
   app
 };
-
