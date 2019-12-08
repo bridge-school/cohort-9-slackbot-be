@@ -1,18 +1,12 @@
 const db = require("./../../db/index");
 const { postToSlack, blockMessage } = require("./services");
-const payload = {
-  question: "Coffee in the morning",
-  responses: ["Yes", "Nah", "tea"],
-  channel: "slackbot-9-test",
-  channelID: "CQR54FVUZ",
-  channelSize: 3
-};
+
 const postPolls = function(req, res) {
   const body = req.body;
   console.log(body);
   res.set("Content-Type", "application/json");
   res.send(`Received new Poll: ${body.message}`);
-  postToSlack(payload.channelID, blockMessage(payload));
+  // postToSlack(body.channelID, blockMessage(body));
 };
 
 const getData = col => {
