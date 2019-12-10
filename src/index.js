@@ -57,36 +57,6 @@ if (process.env.NODE_ENV !== "test") {
     logger.info(`🎧 Listening at http://localhost:${port}/`);
   });
 }
-// Function to insert data to db
-const insertData = (col, data) => {
-  const doc = db
-    .collection(col)
-    // Table
-    .doc();
-  const id = doc.id;
-  data["id"] = id;
-  return (
-    doc
-      // Data. .set returns a promise
-      .set(data)
-  );
-};
-
-// Sample object data to be sent to db:
-// const sampleData = {
-//   question: "What is the best pizza topping?",
-//   responses: ["pepperoni", "pineapple", "cheese", "olives", "peppers"],
-//   channel: "slackbot-9-test",
-//   channelID: "CQR54FVUZ",
-//   timeStamp: Timestamp.now()
-// };
-// Function Call to insert data
-// To insert something to the database:
-// insertData("SLACKBOT_TEST", sampleData)
-//   .then(() => {
-//     console.log(`Success`);
-//   })
-//   .catch(err => console.error(err));
 
 module.exports = {
   app

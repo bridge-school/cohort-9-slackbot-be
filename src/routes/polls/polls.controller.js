@@ -1,11 +1,33 @@
 const db = require("./../../db/index");
 
-const postPolls = function (req, res) {
+// Function to insert data
+const insertData = (col, data) => {
+  const doc = db
+    .collection(col)
+    // Table
+    .doc();
+  const id = doc.id;
+  data["id"] = id;
+  return (
+    doc
+      // Data. .set returns a promise
+      .set(data)
+  );
+};
+
+const postPolls = function(req, res) {
   const body = req.body;
   console.log(body);
-  res.set('Content-Type', 'application/json')
+  res.set("Content-Type", "application/json");
   res.send(`Received new Poll: ${body.message}`);
-}
+
+  // Function call to insert data
+  insertData("SLACKBOT_TEST", body)
+    .then(() => {
+      console.log(`Success`);
+    })
+    .catch(err => console.error(err));
+};
 
 const getData = col => {
   return (
