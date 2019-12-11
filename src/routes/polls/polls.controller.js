@@ -1,12 +1,14 @@
 const db = require("./../../db/index");
-const { postToSlack, blockMessage } = require("./services");
+const { insertDataToFB } = require("./services");
 
 const postPolls = function(req, res) {
   const body = req.body;
   console.log(body);
   res.set("Content-Type", "application/json");
   res.send(`Received new Poll: ${body.message}`);
-  // postToSlack(body.channelID, blockMessage(body));
+
+  // Function call to insert data
+  insertDataToFB("SLACKBOT_TEST", body);
 };
 
 const getData = col => {
