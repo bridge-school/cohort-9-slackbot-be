@@ -11,12 +11,10 @@ const bodyParser = require("body-parser");
 // Import Routes
 const router = require("./api");
 const { logger } = require("./utils/logger");
-const { postTestMessage } = require("./middleware/postTestMessage");
 const { errorHandler } = require("./middleware/error-handler");
 const { channelRouter } = require("./routes/channels/channels.router");
 const { pollsRouter } = require("./routes/polls/polls.router");
 const { resultRouter } = require("./routes/result/result.router");
-const { pollsRouter } = require("./routes/polls/polls.router");
 
 // Firebase Imports
 const Timestamp = require("firebase-admin").firestore.Timestamp;
@@ -41,13 +39,11 @@ app.use(
 // Add channels
 // app.use("/", router);
 // app.use(errorHandler);
+// // app.get("/", );
 app.use(bodyParser());
 app.use("/channels", channelRouter);
-// // app.get("/", );
 app.use("/polls", pollsRouter);
 app.use("/result/:id", resultRouter);
-
-app.use("/polls", pollsRouter);
 
 // Serve the application at the given port
 if (process.env.NODE_ENV !== "test") {
