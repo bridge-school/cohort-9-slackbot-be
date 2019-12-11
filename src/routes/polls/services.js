@@ -1,10 +1,11 @@
 const dotenv = require("dotenv");
 dotenv.config({ path: "../../../.env" });
-
+const db = require("./../../db/index");
 const axios = require("axios");
 
-const blockMessage = ({ question, responses }) => {
-  const buttons = responses.map(response => ({
+// Create block message
+const blockMessage = ({ question, responses }, firebaseID) => {
+  const buttons = Object.keys(responses).map(response => ({
     type: "button",
     text: {
       type: "plain_text",
@@ -22,12 +23,13 @@ const blockMessage = ({ question, responses }) => {
     },
     {
       type: "actions",
-      block_id: "FIREBASE ID",
+      block_id: firebaseID,
       elements: buttons
     }
   ];
 };
 
+// Send poll to slack
 const postToSlack = async (channelID, messageText) => {
   const url = `${process.env.SLACK_POST_MESSAGE_API}`;
   const post = {
@@ -40,11 +42,24 @@ const postToSlack = async (channelID, messageText) => {
   };
   try {
     const response = await axios.post(url, post, { headers: headers });
-    console.log(response.data);
-    console.log(response.data.message.blocks);
   } catch (err) {
     console.log(`Error posting message: `, err);
   }
 };
 
-module.exports = { blockMessage, postToSlack };
+// Function to insert question to Firebase
+const insertDataToFB = async (col, data) => {
+  try {
+    const doc = await db.collection(col).doc();
+    const id = doc.id;
+    const messagePayload = blockMessage(data, id);
+    doc
+      .set(data)
+      .then(() => postToSlack(data.channelID, messagePayload))
+      .catch(err => console.log("Error", err));
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+module.exports = { insertDataToFB };
