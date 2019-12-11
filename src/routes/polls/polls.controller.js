@@ -1,19 +1,5 @@
 const db = require("./../../db/index");
-
-// Function to insert data
-const insertData = (col, data) => {
-  const doc = db
-    .collection(col)
-    // Table
-    .doc();
-  const id = doc.id;
-  data["id"] = id;
-  return (
-    doc
-      // Data. .set returns a promise
-      .set(data)
-  );
-};
+const { insertDataToFB } = require("./services");
 
 const postPolls = function(req, res) {
   const body = req.body;
@@ -22,11 +8,7 @@ const postPolls = function(req, res) {
   res.send(`Received new Poll: ${body.message}`);
 
   // Function call to insert data
-  insertData("SLACKBOT_TEST", body)
-    .then(() => {
-      console.log(`Success`);
-    })
-    .catch(err => console.error(err));
+  insertDataToFB("SLACKBOT_TEST", body);
 };
 
 const getData = col => {

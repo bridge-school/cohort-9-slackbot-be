@@ -11,7 +11,6 @@ const bodyParser = require("body-parser");
 // Import Routes
 const router = require("./api");
 const { logger } = require("./utils/logger");
-const { postTestMessage } = require("./middleware/postTestMessage");
 const { errorHandler } = require("./middleware/error-handler");
 const { channelRouter } = require("./routes/channels/channels.router");
 const { pollsRouter } = require("./routes/polls/polls.router");
@@ -33,7 +32,6 @@ logger.info("🤖 Initializing middleware");
 app.use(morgan("tiny", { stream: logger.stream }));
 app.use(
   cors({
-    // regex to allow all urls from our FE netlify.
     origin: [`http://localhost:3000`, /slackbot-9.netlify.com/]
   })
 );
@@ -41,15 +39,11 @@ app.use(
 // Add channels
 // app.use("/", router);
 // app.use(errorHandler);
+// // app.get("/", );
 app.use(bodyParser());
 app.use("/channels", channelRouter);
-// // app.get("/", );
 app.use("/polls", pollsRouter);
 app.use("/result/:id", resultRouter);
-// postTestMessage(
-//   process.env.SLACKBOT_TEST_CHANNEL,
-//   "Changed this to postTestMessage 123"
-// );
 
 // Serve the application at the given port
 if (process.env.NODE_ENV !== "test") {
