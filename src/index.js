@@ -14,8 +14,8 @@ const { logger } = require("./utils/logger");
 const { postTestMessage } = require("./middleware/postTestMessage");
 const { errorHandler } = require("./middleware/error-handler");
 const { channelRouter } = require("./routes/channels/channels.router");
-const { pollsRouter } = require('./routes/polls/polls.router');
-const { responsesRouter } = require('./routes/responses/responses.router');
+const { pollsRouter } = require("./routes/polls/polls.router");
+const { responsesRouter } = require("./routes/responses/responses.router");
 const { resultRouter } = require("./routes/result/result.router");
 
 // Firebase Imports
