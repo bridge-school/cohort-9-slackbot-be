@@ -6,11 +6,11 @@ const postResponses = function (req, res) {
   const body = JSON.parse(req.body.payload);
   const response = {
     responseSelected: _get(body, 'actions[0].text.text', ''),
-    id: _get(body, 'actions[0].block_id', '')
+    firebaseID: _get(body, 'actions[0].block_id', '')
   };
 
   res.set('Content-Type', 'application/json');
-  res.send(`Received new Poll: ${response}`);
+  res.send(`Received new Response: ${response}`);
 
   updateDatabase(response);
 }
@@ -19,11 +19,12 @@ const getData = response => {
   return (
     db
       .collection("SLACKBOT_TEST")
-      .doc(response.id)
+      .doc(response.firebaseID)
       .get()
       .then(doc => {
         if (!doc.exists) {
           console.log('No such document!');
+          throw 'No such document!';
         } else {
           return doc.data();
         }
@@ -36,7 +37,7 @@ const updateDatabase = async (response) => {
     .then(data => {
       const initialResponse = data.responses[response.responseSelected];
 
-      db.collection("SLACKBOT_TEST").doc(response.id).update({
+      db.collection("SLACKBOT_TEST").doc(response.firebaseID).update({
         responses: {
           ...data.responses,
           [`${[response.responseSelected]}`]: initialResponse + 1
