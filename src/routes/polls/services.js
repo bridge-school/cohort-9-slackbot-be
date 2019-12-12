@@ -52,7 +52,7 @@ const insertDataToFB = async (col, data) => {
   try {
     const doc = await db.collection(col).doc();
     const id = doc.id;
-    doc[id] = id;
+    data["id"] = id;
     const messagePayload = blockMessage(data, id);
     doc
       .set(data)
