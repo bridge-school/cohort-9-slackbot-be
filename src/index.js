@@ -13,7 +13,8 @@ const router = require("./api");
 const { logger } = require("./utils/logger");
 const { errorHandler } = require("./middleware/error-handler");
 const { channelRouter } = require("./routes/channels/channels.router");
-const { pollsRouter } = require("./routes/polls/polls.router");
+const { pollsRouter } = require('./routes/polls/polls.router');
+const { responsesRouter } = require('./routes/responses/responses.router');
 const { resultRouter } = require("./routes/result/result.router");
 
 // Firebase Imports
@@ -43,6 +44,7 @@ app.use(
 app.use(bodyParser());
 app.use("/channels", channelRouter);
 app.use("/polls", pollsRouter);
+app.use("/responses", responsesRouter);
 app.use("/result/:id", resultRouter);
 
 // Serve the application at the given port
