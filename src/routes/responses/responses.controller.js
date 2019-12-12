@@ -1,4 +1,4 @@
-const _get = require('lodash/get');
+const _get = require("lodash/get");
 const db = require("./../../db/index");
 
 // Organize Response Object from Slack API
