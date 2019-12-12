@@ -1,13 +1,16 @@
 const _get = require("lodash/get");
 const db = require("./../../db/index");
+const { removeUser, addUser, getData } = require("./services");
 
 // Organize Response Object from Slack API
 const postResponses = function (req, res) {
   const body = JSON.parse(req.body.payload);
   const response = {
     responseSelected: _get(body, 'actions[0].text.text', ''),
-    firebaseID: _get(body, 'actions[0].block_id', '')
+    firebaseID: _get(body, 'actions[0].block_id', ''),
+    userID: _get(body, 'user.id', '')
   };
+  console.log(response);
 
   res.set('Content-Type', 'application/json');
   res.send(`Received new Response: ${response}`);
@@ -15,33 +18,21 @@ const postResponses = function (req, res) {
   updateDatabase(response);
 }
 
-const getData = response => {
-  return (
-    db
-      .collection("SLACKBOT_TEST")
-      .doc(response.firebaseID)
-      .get()
-      .then(doc => {
-        if (!doc.exists) {
-          console.log('No such document!');
-          throw 'No such document!';
-        } else {
-          return doc.data();
-        }
-      })
-  );
+const createNewResponses = (obj, payload) => {
+  const newObj = removeUser(obj, payload);
+  return addUser(newObj, payload);
 };
 
 const updateDatabase = async (response) => {
   await getData(response)
     .then(data => {
-      const initialResponse = data.responses[response.responseSelected];
+
+      const initialResponseObj = data.responses;
+
+      const newResponseObj = createNewResponses(initialResponseObj, response);
 
       db.collection("SLACKBOT_TEST").doc(response.firebaseID).update({
-        responses: {
-          ...data.responses,
-          [`${[response.responseSelected]}`]: initialResponse + 1
-        }
+        responses: newResponseObj
       })
     })
     .catch(err => {
